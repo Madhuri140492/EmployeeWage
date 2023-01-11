@@ -1,100 +1,82 @@
-//Added UC8: Wage Calculation Program for Multiple Companies
+//UC-9_save-total-wage-for-each-company
 
-package com.employeewage;
+public class EmployeeWageComputation
+{
+    // class constants
+    static final int PART_TIME = 1;
+    static final int FULL_TIME = 2;
+    // instance constants
+    final String COMPANY_NAME;
+    final int WAGE_PER_HR;
+    final int MAX_WORKING_DAYS;
+    final int MAX_WORKING_HRS;
+    // instance variable
+    int totalWage;
 
-import java.util.Random;
-import java.util.Scanner;
-
-public class EmployeeWage {
-    int fullTime;
-    int partTime;
-
-
-    int wagePerHour ;
-    static int empHour ;
-    static int wage = 0;
-    int monthlyWage =0;
-    int monthlyHour =0;
-    String companyName ;
-    int noOfWorkingDays;
-    int noOfWorkingHours;
-
-    EmployeeWage(String companyName,int wagePerHour, int noOfWorkingDays, int noOfWorkingHours, int partTime,int fullTime) {
-        this.companyName = companyName;
-        this.wagePerHour = wagePerHour;
-        this.noOfWorkingDays = noOfWorkingDays;
-        this.noOfWorkingHours = noOfWorkingDays;
-        this.partTime = partTime;
-        this.fullTime = fullTime;
-
-        System.out.println("Company Name : " + companyName + "\t Wage Per Hour : " + wagePerHour + "\t Number of Minimum Working Days in a month : " + noOfWorkingDays);
-//        System.out.println();
-        System.out.println("Number of minimum Working Hours in a month:" + noOfWorkingHours+"\t Part Time Hours : "+partTime+"\t Full Time Hours : "+fullTime);
+    EmployeeWageComputation(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs)
+    {
+        COMPANY_NAME = companyName;
+        WAGE_PER_HR = wagePerHr;
+        MAX_WORKING_DAYS = maxWorkingDays;
+        MAX_WORKING_HRS = maxWorkingHrs;
+        totalWage = 0;
     }
 
+    int generateEmployeeType()
+    {
+        return (int) (Math.random() * 100) % 3;
+    }
 
-
-    void WageCalculation() {
-        Random r = new Random();
-        int n = r.nextInt(3);
-
-        // UC4 Switch case used to check employee attendance status
-        switch (n) { // UC1 to check the Employee is present or absent using RANDOM class.
-            case 0:
-                empHour = fullTime;
-                System.out.println();
-                System.out.println("Employee is Present for " + empHour + " hours. ");
-                break;
-            case 1:// UC3 to add employee hours present for part time
-                empHour = partTime;
-                System.out.println();
-                System.out.println("Employee present for part time for " + empHour + " hours. ");
-                break;
-
+    int getWorkingHrs(int empType)
+    {
+        switch (empType)
+        {
+            case FULL_TIME:
+                return 8;
+            case PART_TIME:
+                return 4;
             default:
-                empHour = 0;
-                System.out.println();
-                System.out.println("Employee is Absent so no salary for him...");
+                return 0;
         }
-
-        wage = wagePerHour * empHour; // UC2 to calculate the daily wage for present employee
-        System.out.println("Employee Wage for one day is: " + wage);
-
     }
-    int MonthlyWageCal(int workDays) {
-        //uc5 to calculate monthly wage of employee
 
-        this.monthlyWage = wage * workDays;
-        int monthlyHour = empHour * workDays;
-        System.out.println("Employee working hours in one month is: "+monthlyHour);
-        System.out.println("Employee this month salary will be : " + monthlyWage);
-        return monthlyWage;
-    }
-    void WorkPolicy(int workDays){
-
-        System.out.println("");//uc6 to check if the Employee working hours or days meets the company requirements
-        // i.e. working days atleast should be 20 in a month or minimum of 100 working hours
-        if (workDays >= noOfWorkingDays || monthlyHour >=noOfWorkingHours){
-            System.out.println("Worker Satisfies the payscale condition.");
-            System.out.println("The Final Salary will be credited to Workers  bank account is: " + monthlyWage);
-        }
-        else{
-            System.out.println("Worker did not satisfies the payscale condition.");
-            System.out.println("Worker needs to work for more hour or minimum for "+noOfWorkingDays+" days or minimum of "+noOfWorkingHours+" hours ");
+    void calculateTotalWage()
+    {
+        System.out.println("Computation of total wage of " + COMPANY_NAME + " employee");
+        System.out.println("-----------------------------------------------------");
+        System.out.printf("%5s     %5s     %5s     %5s\n", "Day", "Workinghrs", "Wage", "Total working hrs");
+        int workingHrs;
+        for (int day = 1, totalWorkingHrs = 0; day <= MAX_WORKING_DAYS
+                && totalWorkingHrs <= MAX_WORKING_HRS; day++, totalWorkingHrs += workingHrs)
+        {
+            int empType = generateEmployeeType();
+            workingHrs = getWorkingHrs(empType);
+            int wage = workingHrs * WAGE_PER_HR;
+            totalWage += wage;
+            System.out.printf("%5d       %5d      %5d      %5d\n", day, workingHrs, wage, totalWorkingHrs + workingHrs);
         }
 
     }
 
-    public static void main(String[] args) {
-        System.out.println("------------------Welcome to Employee Wage Calculation Program!-------------------");
-        System.out.println();
-        EmployeeWage emp = new EmployeeWage("DELL",25,15,80,3,6);
-        //Number of Company Names and other parameters can be added in the constructor to use Employee Wage calculation program for multiple companies
-        Scanner sc = new Scanner(System.in);
-        emp.WageCalculation();
-        System.out.print("Enter Employee WorkDays: ");
-        int workDays = sc.nextInt();
-        emp.MonthlyWageCal(workDays);
-        emp.WorkPolicy(workDays);
+    public String toString()
+    {
+        System.out.println("Details of " + COMPANY_NAME + " employee");
+        System.out.println("-----------------------------------------------------");
+        System.err.println("Wage per hour:" + WAGE_PER_HR);
+        System.out.println("Maximum working days:" + MAX_WORKING_DAYS);
+        System.out.println("Maximum working hours:" + MAX_WORKING_HRS);
+        return "Total wage for a month of " + COMPANY_NAME + " employee is " + totalWage + "\n";
+    }
+
+    public static void main(String args[])
+    {
+        EmployeeWageComputation google = new EmployeeWageComputation("Google", 8, 20, 100);
+        EmployeeWageComputation microsoft = new EmployeeWageComputation("Microsoft", 4, 30, 150);
+
+        google.calculateTotalWage();
+        System.out.println(google);
+
+        microsoft.calculateTotalWage();
+        System.out.println(microsoft);
     }
 }
