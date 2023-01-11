@@ -1,4 +1,4 @@
-//Solving using Switch Case Statement
+//Added UC5: Calculation of Employee Monthly wage.
 
 package com.employeewage;
 
@@ -31,5 +31,11 @@ public class EmployeeWage {
         }
         int wage = wagePerHour*empHour; // UC2 to calculate the daily wage for present employee
         System.out.println("Employee Wage for one day is: "+wage);
+
+        System.out.println("Enter number of days worker worked in one month: ");//uc5 to calculate monthly wage of employee
+        int workDays = sc.nextInt();
+        int monthlyWage = wage*workDays;
+        int monthlyHour = empHour*workDays;
+        System.out.println("Employee this month salary will be : "+monthlyWage);
     }
 }
