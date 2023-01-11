@@ -1,4 +1,4 @@
-//Added UC3: Updated Part time hours and Wage for employee
+//Solving using Switch Case Statement
 
 package com.employeewage;
 
@@ -14,7 +14,7 @@ public class EmployeeWage {
         int n = r.nextInt(3);
         int wagePerHour = 20;
         int empHour ;
-
+        // UC4 Switch case used to check employee attendance status
         switch(n){ // UC1 to check the Employee is present or absent using RANDOM class.
             case 0:
                 empHour=8;
