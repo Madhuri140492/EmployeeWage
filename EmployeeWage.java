@@ -1,23 +1,31 @@
-package EmployeeWage;
+//Added UC2: Calculation of daily wage of employee
 
-public class EmployeeWage
-{
+package com.employeewage;
 
-        public static void main(String[] args)
-        {
-            System.out.println("Welcome to Employee Wage Computation Program");
-        }
-    }
+import java.util.Random;
+import java.util.Scanner;
 
-    package com.bridgelabz.employeewage;
-/*Check Employee is Present or Absent - Use ((RANDOM)) for Attendance Check*/
-public class EmpCheck {
+public class EmployeeWage {
     public static void main(String[] args) {
-        int IS_PRESENT = 1;
-        int employeeCheck = (int)Math.floor(Math.random() * 10) % 2;
-        if ( employeeCheck == 1)
-            System.out.println("Employee is present");
-        else
-            System.out.println("Employee is absent");
+        System.out.println("Welcome to Employee Wage Calculation Program!");
+
+        Random r = new Random();
+        Scanner sc =new Scanner(System.in);
+        int n = r.nextInt(2);
+        int wagePerHour = 20;
+        int empHour ;
+
+        switch(n){ // UC1 to check the Employee is present or absent using RANDOM class.
+            case 0:
+                empHour=8;
+                System.out.println("Employee is Present for "+empHour+" hours. ");
+                break;
+
+            default:
+                empHour=0;
+                System.out.println("Employee is Absent so no salary for him...");
+        }
+        int wage = wagePerHour*empHour; // UC2 to calculate the daily wage for present employee
+        System.out.println("Employee Wage for one day is: "+wage);
     }
 }
